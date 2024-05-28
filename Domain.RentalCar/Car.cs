@@ -5,6 +5,8 @@
     /// </summary>
     public class Car : IVehicle
     {
+        public string Model { get; set; }
+        public string CC { get; set; }
         /// <summary>
         /// 計算租車費用
         /// </summary>

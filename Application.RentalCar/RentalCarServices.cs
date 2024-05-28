@@ -1,13 +1,14 @@
-﻿using Domain.RentalCar;
+﻿using Application.RentalCar.ViewModels;
+using Domain.RentalCar;
 
 namespace Application.RentalCar
 {
     public class RentalCarServices
     {
         //private IVehicle _iVehicle;
-        private readonly IQueryRentalCarUserCase _queryRentalCarUserCase;
+        private readonly IQueryRentalCarUseCase _queryRentalCarUserCase;
 
-        public RentalCarServices(IQueryRentalCarUserCase queryRentalCarUserCase)
+        public RentalCarServices(IQueryRentalCarUseCase queryRentalCarUserCase)
         {
             //_iVehicle = vehicle;
             _queryRentalCarUserCase = queryRentalCarUserCase;
@@ -16,6 +17,11 @@ namespace Application.RentalCar
         public IEnumerable<IVehicle> GetAllCars()
         {
             return _queryRentalCarUserCase.GetAllCars();
+        }
+
+        public IEnumerable<AccountViewModel> GetAllAccounts()
+        {
+            return _queryRentalCarUserCase.GetAllAccounts();
         }
 
         public TimeSpan ChoiseRentalTime(DateTime start, DateTime end)
