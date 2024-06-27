@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Common.RentalCar" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domain.RentalCar\Domain.RentalCar.csproj" />
   </ItemGroup>
 

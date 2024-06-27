@@ -1,5 +1,6 @@
 ﻿using Application.RentalCar;
 using Application.RentalCar.ViewModels;
+using Common.RentalCar.Crypto;
 using EasyArchitectCore.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -12,14 +13,17 @@ namespace Web.RentalCar.Controllers
     public class AccountController : Controller
     {
         private readonly RentalCarServices _rentalCarServices;
+        private readonly AccountServices _accountServices;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
         public AccountController(
             RentalCarServices rentalCarServices,
+            AccountServices accountServices,
             IHttpContextAccessor httpContextAccessor,
             IConfiguration configuration)
         {
             _rentalCarServices = rentalCarServices;
+            _accountServices = accountServices;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
         }
@@ -41,7 +45,7 @@ namespace Web.RentalCar.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (account.UserId == "Liv")
+                if (_accountServices.ValidationAccount(account))
                 {
                     if (ProcessLogin(account))
                     {
@@ -64,12 +68,29 @@ namespace Web.RentalCar.Controllers
         }
 
         /// <summary>
+        /// 註冊帳號畫面一開始的進入點
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        /// <summary>
         /// 註冊帳號
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
+        [HttpPost]
         public IActionResult Register(AccountViewModel account)
         {
+            if (ModelState.IsValid)
+            {
+                if (_accountServices.RegisterAccount(account))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+            }
             return View();
         }
 

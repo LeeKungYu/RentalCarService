@@ -19,7 +19,7 @@ namespace Application.RentalCar.Repository
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        int CreatAccount(AccountViewModel account);
+        int CreatAccount(AccountViewModel account); 
 
         /// <summary>
         /// 編輯帳號
@@ -35,5 +35,11 @@ namespace Application.RentalCar.Repository
         /// <returns></returns>
         int DeleteAccount(AccountViewModel account);
 
+        /// <summary>
+        /// 取Account資料
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        AccountViewModel? GetAccount(string userId);
     }
 }

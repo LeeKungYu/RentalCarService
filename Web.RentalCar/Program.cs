@@ -1,4 +1,5 @@
 using Application.RentalCar;
+using Application.RentalCar.Repository;
 using Infrastructure.RentalCar;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -17,17 +18,22 @@ builder.Services.AddAuthentication(option =>
 }).AddCookie(cookieOption =>
     {
         //cookieOption.LoginPath = "/Account/Login"; //不要寫死 讓程式去讀appsettings.json        
-        cookieOption.LoginPath = configuration.GetValue<string>("LoginPage"); 
+        cookieOption.LoginPath = configuration.GetValue<string>("LoginPage");
         cookieOption.ExpireTimeSpan = TimeSpan.FromMinutes(configuration.GetValue<int>("TimeoutMinutes"));
     });
 
 builder.Services.AddDbContext<SaleCarDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("RentalCarConn"));
 });
 
+//越新的放越後面 但要注意介面與Repository的擺放位置以及Services的執行順序。
+
 builder.Services.AddScoped<IQueryRentalCarUseCase, RentalCarRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+
 builder.Services.AddScoped<RentalCarServices>();
+builder.Services.AddScoped<AccountServices>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
